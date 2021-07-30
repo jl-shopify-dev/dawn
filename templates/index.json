@@ -1,68 +1,31 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "1627635313416b61b3": {
+      "type": "collection-menu",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "1627635313416b61b3-0": {
+          "type": "collection",
           "settings": {
-            "heading": "Talk about your brand"
+            "collection": "vincent-van-gogh"
           }
         },
-        "button": {
-          "type": "buttons",
+        "1627635313416b61b3-1": {
+          "type": "collection",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify:\/\/collections\/all",
-            "button_label_2": ""
+            "collection": "pablo-picasso"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "1627635313416b61b3-0",
+        "1627635313416b61b3-1"
       ],
       "settings": {
-        "desktop_text_box_position": "flex-end"
-      }
-    },
-    "featured_products": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products"
-      }
-    },
-    "image_text": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
-      "settings": {
+        "title": "Menu"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_products",
-    "image_text"
+    "1627635313416b61b3"
   ]
 }

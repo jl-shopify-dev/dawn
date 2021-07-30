@@ -14,11 +14,18 @@
           "settings": {
             "collection": "pablo-picasso"
           }
+        },
+        "b6b71772-238b-4df6-a24c-6b174d156e90": {
+          "type": "collection",
+          "settings": {
+            "collection": "italian-renaissance"
+          }
         }
       },
       "block_order": [
         "1627635313416b61b3-0",
-        "1627635313416b61b3-1"
+        "1627635313416b61b3-1",
+        "b6b71772-238b-4df6-a24c-6b174d156e90"
       ],
       "settings": {
         "title": "Menu"

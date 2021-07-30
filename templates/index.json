@@ -1,10 +1,5 @@
 {
   "sections": {
-    "16276445582fa7963c": {
-      "type": "storefront",
-      "settings": {
-      }
-    },
     "1627635313416b61b3": {
       "type": "collection-menu",
       "blocks": {
@@ -33,13 +28,11 @@
         "1627635313416b61b3-0"
       ],
       "settings": {
-        "title": "Menu",
-        "number_cols": 2
+        "title": "Menu"
       }
     }
   },
   "order": [
-    "16276445582fa7963c",
     "1627635313416b61b3"
   ]
 }

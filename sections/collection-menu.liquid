@@ -1,0 +1,213 @@
+
+<div class="menu-bar">
+  <div class="menu-bar-inner page-width">
+    {% for block in section.blocks %}
+      {%- assign collection = collections[block.settings.collection] -%}
+      <a href="#menu-{{collection.handle}}">{{ collection.title }}</a>
+    {% endfor %}
+  </div>
+</div>
+<div class="menu-collection-body page-width">
+  <div class="menu-title">
+    <h2>{{ section.settings.title }}</h2>
+  </div>
+
+  {% for block in section.blocks %}
+    {%- assign collection = collections[block.settings.collection] -%}
+    <div class="menu-collection" id="menu-{{collection.handle}}">
+      <div class="collection-header">
+        <h3>{{collection.title}}</h3>
+        <p>{{collection.description | strip_html}}</p>
+      </div>
+      <ul class="product-list list-reset">
+        {%- for product in collection.products -%}
+          <li class="product-card">
+            <a class="product-card-link" href="{{ product.url }}" aria-label="{{ product.title | escape }}"></a>
+            <div class="product-card-content">
+              <div class="product-card-info">
+                <h4 class="product-card-title">{{ product.title }}</h4>
+                <p class="product-card-description">{{ product.description | strip_html | truncate: 120 }}</p>
+                <p class="product-card-price">$$$</p>
+              </div>
+              <div class="product-card-image-wrapper">
+                <img src="{{ product.featured_media | img_url: '220x220' }}"
+                    width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}" loading="lazy"
+                    alt="{{ product.featured_media.alt | escape }}">
+                <div class="product-card-quantity visually-hidden">
+                    <span aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% schema %}
+{
+  "name": "Collection Menu",
+  "class": "collection-menu-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "title",
+      "default": "Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "t:sections.collection-list.blocks.featured_collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Menu",
+      "blocks": [
+        { 
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+
+.shopify-section.collection-menu-section .page-width {
+  width: 1140px;
+}
+
+.shopify-section.collection-menu-section {
+  outline: solid 3px red !important;
+
+}
+
+.menu-title {
+  width: 100%;
+  text-align: center;
+}
+
+.menu-bar {
+  background-color: white;
+  color: black;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.menu-bar-inner {}
+
+.menu-collection {
+  margin-bottom: 96px;
+}
+
+.product-list {
+  --num-grid-cols: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--num-grid-cols), 1fr);
+  gap: 2rem;
+}
+
+.product-card {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.list-reset {
+  margin:0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+.product-card {
+  position: relative;
+  color: black;
+  padding: 10px;
+}
+
+.product-card:hover .product-card-title {
+  text-decoration: underline;
+}
+
+.product-card:hover {
+  transition: opacity .3s ease-in-out;
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.product-card-link {
+  position: absolute;
+  inset: 0;
+}
+
+.product-card-link:empty {
+  display: block
+}
+
+.product-card-content {
+  display: flex;
+}
+
+.product-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-title {
+  font-size: 2.2rem;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.product-card-description {
+  color: dimgrey;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.product-card-price {
+  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.product-card-image-wrapper {
+  display: grid;
+  <!-- align-items: center; -->
+}
+.product-card-image-wrapper > img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

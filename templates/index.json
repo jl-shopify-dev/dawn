@@ -3,29 +3,29 @@
     "1627635313416b61b3": {
       "type": "collection-menu",
       "blocks": {
+        "1627635313416b61b3-1": {
+          "type": "collection",
+          "settings": {
+            "collection": "classics"
+          }
+        },
+        "49405a33-8338-4037-95a5-57f2cef5152a": {
+          "type": "collection",
+          "settings": {
+            "collection": "italian-renaissance"
+          }
+        },
         "1627635313416b61b3-0": {
           "type": "collection",
           "settings": {
             "collection": "vincent-van-gogh"
           }
-        },
-        "1627635313416b61b3-1": {
-          "type": "collection",
-          "settings": {
-            "collection": "pablo-picasso"
-          }
-        },
-        "b6b71772-238b-4df6-a24c-6b174d156e90": {
-          "type": "collection",
-          "settings": {
-            "collection": "italian-renaissance"
-          }
         }
       },
       "block_order": [
-        "1627635313416b61b3-0",
         "1627635313416b61b3-1",
-        "b6b71772-238b-4df6-a24c-6b174d156e90"
+        "49405a33-8338-4037-95a5-57f2cef5152a",
+        "1627635313416b61b3-0"
       ],
       "settings": {
         "title": "Menu"

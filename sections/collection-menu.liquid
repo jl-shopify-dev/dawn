@@ -1,3 +1,43 @@
+<!-- 
+TODO:
+- offset menu sections 
+- throttle scroll event handling
+- set current menu collection section on page load
+- remove / handle sticky header option
+- image loading optimisations
+- pricing
+- availabliity: Sold out, display if available
+
+Sections:
+- Product Cards
+- Product Grid
+- Header
+- Footer
+- Product Page
+- Menu?
+
+Features:
+- Events
+- Deliveries
+- Recipes
+- Locations
+- Story
+- Combinations | Recommendations | Bundling
+
+Product Features:
+- Ingredients
+- Nutritional Info
+- Allergies | Disclaimers
+- Veggie | Vegan
+
+
+Tech:
+- Turbolinks
+- Schema
+
+
+ -->
+
 <div class="menu-bar">
   <div class="menu-bar-inner menu-page-width">
     {% for block in section.blocks %}
@@ -21,24 +61,31 @@
       <p class="collection-header-description menu-page-width">{{collection.description | strip_html}}</p>
       <ul class="product-list list-reset menu-page-width" style="--num-grid-cols: {{ section.settings.number_cols }}">
         {%- for product in collection.products -%}
-          <li class="product-card">
-            <a class="product-card-link" href="{{ product.url }}" aria-label="{{ product.title | escape }}"></a>
-            <div class="product-card-content">
-              <div class="product-card-info">
-                <h4 class="product-card-title">{{ product.title }}</h4>
-                <p class="product-card-description">{{ product.description | strip_html | truncate: 120 }}</p>
-                <p class="product-card-price">$$$</p>
-              </div>
-              <div class="product-card-image-wrapper">
-                <img src="{{ product.featured_media | img_url: '220x220' }}"
-                    width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}" loading="lazy"
-                    alt="{{ product.featured_media.alt | escape }}">
-                <div class="product-card-quantity visually-hidden">
-                    <span aria-hidden="true"></span>
+          {% if product.available or section.settings.show_unavailable_products == true %}
+            <li class="product-card {% if product.available != true %} unavailable {% endif %}">
+              <a class="product-card-link" href="{{ product.url }}" aria-label="{{ product.title | escape }}"></a>
+              <div class="product-card-content">
+                <div class="product-card-info">
+                  <h4 class="product-card-title">{{ product.title }}</h4>
+                  <p class="product-card-description">{{ product.description | strip_html | truncate: 120 }}</p>
+                  <p class="product-card-price">$$$</p>                
+                  {% if product.metafields.my_food_theme.is_vegan == true %}
+                    <span class="veg-badge">Ve</span>
+                  {% elsif product.metafields.my_food_theme.is_vegetarian == true %}
+                    <span class="vegan-badge">Vg</span>
+                  {% endif %}
+                </div>
+                <div class="product-card-image-wrapper">
+                  <img src="{{ product.featured_media | img_url: '220x220' }}"
+                      width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}" loading="lazy"
+                      alt="{{ product.featured_media.alt | escape }}">
+                  <div class="product-card-quantity visually-hidden">
+                      <span aria-hidden="true"></span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </div>
@@ -65,6 +112,13 @@
       "min": 1,
       "max": 3,
       "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "show_unavailable_products",
+      "label": "Show unavailable products",
+      "default": true,
+      "info": "Show unavailable products"
     }
   ],
   "blocks": [
@@ -145,7 +199,7 @@
 
 .menu-bar-link.current {
   opacity: 1;
-  text-shadow: 0 0 white;
+  text-shadow: 0 0 1px currentColor;
 }
 
 .menu-bar-inner {
@@ -211,6 +265,11 @@
 .product-card {
   background-color: whitesmoke;
   color: black;
+}
+
+.product-card.unavailable {
+  background-color: lightgrey;
+  outline: solid 2px darkred;
 }
 
 .list-reset {
@@ -286,9 +345,74 @@
   object-position: center;
 }
 
+.veg-badge {
+  color: white;
+  background-color: yellowgreen;
+  border-radius: 100px;
+  width: 3.5ch;
+  height: 3.5ch;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.vegan-badge {
+  color: white;
+  background-color: forestgreen;
+  border-radius: 100px;
+  width: 3.5ch;
+  height: 3.5ch;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 {% endstylesheet %}
 
 {% javascript %}
+  function isInViewport(el) {
+    let
+      rect = el.getBoundingClientRect(),
+      windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+    
+    const topEdgeIsVisible = (rect.top > (0)) && (rect.top < windowHeight);
+    const bottomEdgeIsVisible = ((rect.top + rect.height) > (windowHeight * 0.25)) && ((rect.top + rect.height) < windowHeight);
+    return (topEdgeIsVisible || bottomEdgeIsVisible);
+
+  }
+
+  function setActiveMenuSection() {
+    console.log(">> setActiveMenuSection")
+
+    // TODO: Account for multiple menu sections on a single page
+    const menuCollections = document.getElementsByClassName("menu-collection");
+    let activeElement = null;
+    for (let menuCollection of menuCollections) {
+      const isVisible = isInViewport(menuCollection)
+      if (isVisible) {
+        activeElement = menuCollection;
+        break
+      }
+    }
+    if (activeElement) {
+      const menuBarLinks = document.getElementsByClassName("menu-bar-link")
+      
+      for (let menuBarLink of menuBarLinks) {
+        if (menuBarLink.getAttribute("href") === `#${activeElement.id}`) {
+          menuBarLink.classList.add("current")
+        }
+        else {
+          menuBarLink.classList.remove("current")
+        }
+        
+      }
+
+    }
+  }
+  window.addEventListener("scroll", function() {
+    setActiveMenuSection()
+  });
+
 {% endjavascript %}
